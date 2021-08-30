@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
+from tkinter import filedialog
 import tkinter
 import os
 import re
@@ -34,7 +35,9 @@ def xulyanh(pic):
 
 def btnclick():
     global txtfolder
-    txtfolder = txt.get()
+    txtfolder = filedialog.askdirectory()
+    txt.delete(0, "end")
+    txt.insert(0, txtfolder)
     try:    
         combo['value'] = os.listdir(txtfolder)
         combo.current(0)
