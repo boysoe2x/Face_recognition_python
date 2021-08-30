@@ -6,7 +6,7 @@ import tkinter
 import os
 import re
 import cv2
-# import face_recognition
+import face_recognition
 
 txtfolder = ""
 
@@ -28,9 +28,14 @@ combo.grid(column=1, row=1)
 def xulyanh(pic):
     img = cv2.imread(pic)
     cv2.imshow('Old image', img)
-    # image = face_recognition.load_image_file(pic)
-    # face_locations = face_recognition.face_locations(image)
-    cv2.waitkey(0)
+    image = face_recognition.load_image_file(pic)
+    face_locations = face_recognition.face_locations(image)
+    a = len(face_locations)
+    print(a)
+    i = 0
+    while i < a:
+        cv2.imshow("hello", face_locations[i])
+        i = i + 1
     return
 
 def btnclick():
