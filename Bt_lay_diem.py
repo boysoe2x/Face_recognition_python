@@ -32,8 +32,12 @@ def xulyanh(pic):
         cv2.imshow('Old image', img)
         image = face_recognition.load_image_file(pic)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        face_locations = face_recognition.face_locations(image)[0]
-        cv2.rectangle(image, (face_locations[3], face_locations[0]), (face_locations[1], face_locations[2]), (255, 0, 255), 2)
+        face_locations = face_recognition.face_locations(image)
+        a = len(face_locations)
+        i = 0
+        while i < a:
+            cv2.rectangle(image, (face_locations[i][3], face_locations[i][0]), (face_locations[i][1], face_locations[i][2]), (255, 0, 255), 2)
+            i = i + 1
         cv2.imshow("Face location image", image)
         cv2.waitKey(0)
     except:
