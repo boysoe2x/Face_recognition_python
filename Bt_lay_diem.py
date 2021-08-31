@@ -28,23 +28,23 @@ combo.grid(column=1, row=1)
 
 # Ham xu ly anh!!!!!!!!!!!!!!!!!!!!
 def xulyanh(pic):
-    # try:
-    img = cv2.imread(pic)
-    image = face_recognition.load_image_file(pic)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    face_locations = face_recognition.face_locations(image)
-    a = len(face_locations)
-    i = 0
-    while i < a:
-        cv2.rectangle(image, (face_locations[i][3], face_locations[i][0]), (face_locations[i][1], face_locations[i][2]), (255, 0, 255), 2)
-        i = i + 1
-    img = re_size(img)
-    cv2.imshow('Old image', img)
-    image = re_size(image)
-    cv2.imshow("Face location image", image)
-    cv2.waitKey(0)
-    # except:
-    #     messagebox.showinfo("Lỗi", "Không tồn tại folder như vậy.")
+    try:
+        img = cv2.imread(pic)
+        image = face_recognition.load_image_file(pic)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        face_locations = face_recognition.face_locations(image)
+        a = len(face_locations)
+        i = 0
+        while i < a:
+            cv2.rectangle(image, (face_locations[i][3], face_locations[i][0]), (face_locations[i][1], face_locations[i][2]), (255, 0, 255), 2)
+            i = i + 1
+        img = re_size(img)
+        cv2.imshow('Old image', img)
+        image = re_size(image)
+        cv2.imshow("Face location image", image)
+        cv2.waitKey(0)
+    except:
+        messagebox.showinfo("Lỗi", "Không tồn tại folder như vậy.")
     return
 
 def re_size(image):
