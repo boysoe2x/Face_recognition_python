@@ -49,9 +49,9 @@ def xulyanh(pic):
 
 def re_size(image):
     win_w = GetSystemMetrics(0)
-    win_h = GetSystemMetrics(1) 
-    w = image.shape[0]
-    h = image.shape[1]
+    win_h = GetSystemMetrics(1) - 100
+    h = image.shape[0]
+    w = image.shape[1]
     fw = w/win_w
     fh = h/win_h
     ff = 0
@@ -62,7 +62,7 @@ def re_size(image):
     if ff > 1:
         w = int(w / ff)
         h = int(h / ff)
-    image = cv2.resize(image, (h, w))
+    image = cv2.resize(image, (w, h))
     return image
 
 def btnclick():
