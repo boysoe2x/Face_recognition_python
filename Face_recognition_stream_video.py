@@ -15,7 +15,7 @@ canvas = Canvas(frame, width = canvas_w, height = canvas_h, bg = "white")
 canvas.pack()
 
 recognition = 1
-gray = 1
+gray = 0
 
 def face_rec_change():
     global recognition
@@ -23,12 +23,12 @@ def face_rec_change():
 
 def rgbtogray():
     global gray
-    gray = 0
+    gray = 1 - gray
 
 face_rec_btn = tkinter.Button(frame, text = "Face recognition:ON", command = face_rec_change)
 face_rec_btn.pack()
 
-gray_btn = tkinter.Button(frame, text = "Gray image:ON", command = rgbtogray)
+gray_btn = tkinter.Button(frame, text = "Gray image:OFF", command = rgbtogray)
 gray_btn.pack()
 
 def update_frame():
