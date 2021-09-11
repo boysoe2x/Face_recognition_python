@@ -1,33 +1,61 @@
-from imutils import paths
-import face_recognition
-import pickle
+from tkinter import *
+import tkinter
 import cv2
-import os
- 
-#get paths of each file in folder named Images
-#Images here contains my data(folders of various persons)
-imagePaths = list(paths.list_images('Images'))
-knownEncodings = []
-knownNames = []
-# loop over the image paths
-for (i, imagePath) in enumerate(imagePaths):
-    # extract the person name from the image path
-    name = imagePath.split(os.path.sep)[-2]
-    # load the input image and convert it from BGR (OpenCV ordering)
-    # to dlib ordering (RGB)
-    image = cv2.imread(imagePath)
-    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    #Use Face_recognition to locate faces
-    boxes = face_recognition.face_locations(rgb,model='hog')
-    # compute the facial embedding for the face
-    encodings = face_recognition.face_encodings(rgb, boxes)
-    # loop over the encodings
-    for encoding in encodings:
-        knownEncodings.append(encoding)
-        knownNames.append(name)
-#save emcodings along with their names in dictionary data
-data = {"encodings": knownEncodings, "names": knownNames}
-#use pickle to save data into a file for later use
-f = open("face_enc", "wb")
-f.write(pickle.dumps(data))
-f.close()
+import face_recognition
+import PIL.Image , PIL.ImageTk
+import time
+
+frame = Tk()
+frame.title("Frame opencv")
+
+video = cv2.VideoCapture(0)
+canvas_w = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+canvas_h = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+canvas = Canvas(frame, width = canvas_w, height = canvas_h, bg = "white")
+canvas.pack()
+
+recognition = 1
+gray = 1
+
+def face_rec_change():
+    global recognition
+    recognition = 1 - recognition
+
+def rgbtogray():
+    global gray
+    gray = 0
+
+face_rec_btn = tkinter.Button(frame, text = "Face recognition:ON", command = face_rec_change)
+face_rec_btn.pack()
+
+gray_btn = tkinter.Button(frame, text = "Gray image:ON", command = rgbtogray)
+gray_btn.pack()
+
+def update_frame():
+    global photo
+    ret, img = video.read()
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    face_locations = face_recognition.face_locations(img)
+
+    if(recognition == 1):
+        a = len(face_locations)
+        i = 0
+        while i < a:
+            cv2.rectangle(img, (face_locations[i][3], face_locations[i][0]), (face_locations[i][1], face_locations[i][2]), (255, 0, 255), 2)
+            i = i + 1
+        face_rec_btn.configure(text = "Face recognition:ON")
+    else:
+        face_rec_btn.configure(text = "Face recognition:OFF")
+
+    if(gray == 1):
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        gray_btn.configure(text = "Gray image:ON")
+    else:
+        gray_btn.configure(text = "Gray image:OFF")
+
+    photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(img))
+    canvas.create_image(0, 0, image = photo, anchor = tkinter.NW)
+    frame.after(20, update_frame)
+    
+update_frame()
+frame.mainloop()
