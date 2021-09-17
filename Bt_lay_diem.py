@@ -11,7 +11,7 @@ import face_recognition
 import threading
 
 txtfolder = ""
-txtfolder_out = "D:/D_ld/Face_recognition_python/Images_output/"
+txtfolder_out = ""
 
 frame = Tk()
 frame.title("Face recognition")
@@ -103,12 +103,15 @@ def re_size(image):
     return image
 
 def btnclick():
+    global txtfolder
+    global txtfolder_out
+    txtfolder = filedialog.askdirectory() + '/'
+    txtfolder_out = txtfolder.replace("Images", "Images_output")
+
     filelist = os.listdir(txtfolder_out)
     for f in filelist:
         os.remove(txtfolder_out + f)
-    
-    global txtfolder
-    txtfolder = filedialog.askdirectory() + '/'
+
     txt.delete(0, "end")
     txt.insert(0, txtfolder)
     try:    
