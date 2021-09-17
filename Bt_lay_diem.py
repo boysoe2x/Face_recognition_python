@@ -102,11 +102,24 @@ def re_size(image):
     image = cv2.resize(image, (w, h))
     return image
 
+def cut_string():
+    global txtfolder
+    a = 0
+    b = 0
+    c = 0
+    for i in txtfolder:
+        if(i == '/'):
+            a = b
+            b = c
+        c = c + 1
+    return txtfolder[:a+1]
+
 def btnclick():
     global txtfolder
     global txtfolder_out
     txtfolder = filedialog.askdirectory() + '/'
-    txtfolder_out = txtfolder.replace("Images", "Images_output")
+    txtfolder_out = cut_string()
+    txtfolder_out = txtfolder_out + "Images_output/"
 
     filelist = os.listdir(txtfolder_out)
     for f in filelist:
